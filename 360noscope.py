@@ -74,7 +74,7 @@ if __name__ == '__main__':
 		if cv2.waitKey(1) & 0xFF == ord('q'):
 			break
 
-		frames.put(frame)
+		#frames.put(frame)
 
 		cv2.imshow('Frame', frame)
 
