@@ -17,7 +17,7 @@ def save_video(width, height, frames):
 			video.write(frame)
 
 if __name__ == '__main__':
-	green_lower = (50, 2, 220)
+	green_lower = (60, 20, 230)
 	green_upper = (95, 255, 255)
 
 	cap = cv2.VideoCapture(0)
