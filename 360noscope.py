@@ -1,20 +1,6 @@
 import cv2
 import math
-import multiprocessing
-from multiprocessing import Queue
-from datetime import datetime
 from networktables import NetworkTables
-
-def save_video(width, height, frames):
-	video = None
-	while True:
-		if not frames.empty():
-			if video == None:
-				filepath = 'videos/{date:%Y-%m-%d_%H-%M}.mp4'.format(date=datetime.now())
-				video = cv2.VideoWriter(filepath, cv2.VideoWriter_fourcc(*'mp4v'), 20.0, (width, height))
-
-			frame = frames.get()
-			video.write(frame)
 
 if __name__ == '__main__':
 	green_lower = (60, 20, 230)
@@ -22,15 +8,11 @@ if __name__ == '__main__':
 
 	cap = cv2.VideoCapture(0)
 
-	frames = Queue()
 	width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
 	height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
 
 	NetworkTables.initialize(server='roborio-4795-frc.local')
 	sd = NetworkTables.getTable('SmartDashboard') # slow
-
-	# video_saver = multiprocessing.Process(target=save_video, args=(width, height, frames)) # start and end with match
-	# video_saver.start()
 
 	while True:
 		frame = cap.read()[1]
@@ -73,8 +55,6 @@ if __name__ == '__main__':
 
 		if cv2.waitKey(1) & 0xFF == ord('q'):
 			break
-
-		#frames.put(frame)
 
 		cv2.imshow('Frame', frame)
 
